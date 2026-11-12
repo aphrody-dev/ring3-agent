@@ -27,7 +27,10 @@ pub struct GpuDietBackup {
 /// Query live NVIDIA GPU VRAM metrics using nvidia-smi.
 pub fn query_nvidia_vram() -> (u64, u64, u64) {
     let output = Command::new("nvidia-smi")
-        .args(["--query-gpu=memory.total,memory.used,memory.free", "--format=csv,noheader,nounits"])
+        .args([
+            "--query-gpu=memory.total,memory.used,memory.free",
+            "--format=csv,noheader,nounits",
+        ])
         .output();
 
     if let Ok(out) = output {
@@ -50,17 +53,21 @@ pub fn query_nvidia_vram() -> (u64, u64, u64) {
 mod win_impl {
     use std::ffi::c_void;
     use std::mem::size_of;
-    use windows_sys::Win32::Foundation::{BOOL, FALSE, HANDLE};
-    use windows_sys::Win32::System::ProcessStatus::{K32EmptyWorkingSet, K32GetProcessMemoryInfo, PROCESS_MEMORY_COUNTERS};
+    use windows_sys::Win32::Foundation::{FALSE, HANDLE};
+    use windows_sys::Win32::System::ProcessStatus::{
+        K32EmptyWorkingSet, K32GetProcessMemoryInfo, PROCESS_MEMORY_COUNTERS,
+    };
     use windows_sys::Win32::System::Threading::{
-        OpenProcess, SetProcessInformation, ProcessPowerThrottling,
-        PROCESS_POWER_THROTTLING_CURRENT_VERSION, PROCESS_POWER_THROTTLING_EXECUTION_SPEED,
-        PROCESS_POWER_THROTTLING_STATE, PROCESS_QUERY_INFORMATION, PROCESS_SET_INFORMATION,
+        OpenProcess, PROCESS_POWER_THROTTLING_CURRENT_VERSION,
+        PROCESS_POWER_THROTTLING_EXECUTION_SPEED, PROCESS_POWER_THROTTLING_STATE,
+        PROCESS_QUERY_INFORMATION, PROCESS_SET_INFORMATION, ProcessPowerThrottling,
+        SetProcessInformation,
     };
     use windows_sys::Win32::UI::WindowsAndMessaging::{
-        SystemParametersInfoW, ANIMATIONINFO, SPIF_SENDCHANGE, SPIF_UPDATEINIFILE,
-        SPI_GETANIMATION, SPI_GETUIEFFECTS, SPI_SETANIMATION, SPI_SETUIEFFECTS,
+        ANIMATIONINFO, SPI_GETANIMATION, SPI_GETUIEFFECTS, SPI_SETANIMATION, SPI_SETUIEFFECTS,
+        SPIF_SENDCHANGE, SPIF_UPDATEINIFILE, SystemParametersInfoW,
     };
+    use windows_sys::core::BOOL;
 
     pub fn get_system_ui_effects() -> bool {
         let mut enabled: BOOL = FALSE;
@@ -71,11 +78,7 @@ mod win_impl {
                 &mut enabled as *mut BOOL as *mut c_void,
                 0,
             );
-            if res != 0 {
-                enabled != FALSE
-            } else {
-                true
-            }
+            if res != 0 { enabled != FALSE } else { true }
         }
     }
 
@@ -186,11 +189,21 @@ mod win_impl {
 
 #[cfg(not(windows))]
 mod win_impl {
-    pub fn get_system_ui_effects() -> bool { true }
-    pub fn set_system_ui_effects(_enable: bool) -> bool { true }
-    pub fn get_system_animation() -> bool { true }
-    pub fn set_system_animation(_enable: bool) -> bool { true }
-    pub fn trim_process_working_set(_pid: u32, _eco_qos: bool) -> Option<u64> { Some(0) }
+    pub fn get_system_ui_effects() -> bool {
+        true
+    }
+    pub fn set_system_ui_effects(_enable: bool) -> bool {
+        true
+    }
+    pub fn get_system_animation() -> bool {
+        true
+    }
+    pub fn set_system_animation(_enable: bool) -> bool {
+        true
+    }
+    pub fn trim_process_working_set(_pid: u32, _eco_qos: bool) -> Option<u64> {
+        Some(0)
+    }
 }
 
 pub struct WindowsGpuDiet;
@@ -226,7 +239,9 @@ impl WindowsGpuDiet {
             for proc_name in &config.target_processes {
                 let pids = Self::find_pids_by_name(proc_name);
                 for pid in pids {
-                    if let Some(freed) = win_impl::trim_process_working_set(pid, config.eco_qos_background_renderers) {
+                    if let Some(freed) =
+                        win_impl::trim_process_working_set(pid, config.eco_qos_background_renderers)
+                    {
                         trimmed_count += 1;
                         total_freed += freed;
                     }
@@ -256,7 +271,10 @@ impl WindowsGpuDiet {
             // Fallback restore to safe defaults (true)
             win_impl::set_system_ui_effects(true);
             win_impl::set_system_animation(true);
-            return Ok("Default Windows UI effects and animations restored (no backup file found)".to_string());
+            return Ok(
+                "Default Windows UI effects and animations restored (no backup file found)"
+                    .to_string(),
+            );
         }
 
         let content = fs::read_to_string(path)
@@ -276,7 +294,13 @@ impl WindowsGpuDiet {
     fn find_pids_by_name(process_name: &str) -> Vec<u32> {
         let mut pids = Vec::new();
         let output = Command::new("tasklist")
-            .args(["/FI", &format!("IMAGENAME eq {}", process_name), "/FO", "CSV", "/NH"])
+            .args([
+                "/FI",
+                &format!("IMAGENAME eq {}", process_name),
+                "/FO",
+                "CSV",
+                "/NH",
+            ])
             .output();
 
         if let Ok(out) = output {
