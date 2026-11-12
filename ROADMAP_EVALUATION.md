@@ -93,20 +93,20 @@ These forks overlap with Tier A components or have been superseded by more integ
 
 | Subsystem Directory | Focus & Upstream Lineage | Integration Status with `r3d` |
 | :--- | :--- | :--- |
-| `C:\src\aphrody` | Strict Google replica, 100% pure Bun, 0 external npm dependencies. | Frontend presentation layer for client-side WebGPU agent chat console. |
-| `C:\src\bench` | Benchmarking harnesses for memory latency and inference throughput. | Performance verification suite for AVX2 vs CUDA latency. |
-| `C:\src\bun` | Upstream `oven-sh/bun` source tree. | Host runtime for scripts and high-speed local control scripts. |
-| `C:\src\chromium` & `chromium-bun` | Chromium upstream source and headless bindings. | Headless web interaction and testing for WebGPU browser compute. |
-| `C:\src\depot` & `depot_tools` | Sovereign monorepo engine using Google `argh` + `zerocopy` + `windows-sys`. | Build orchestration and dependency management. |
-| `C:\src\dioxus` & `taffy` | Rust UI layout and cross-platform GUI framework. | Native UI layout engine for local HUD displays. |
-| `C:\src\gamescope-rs` | Rust micro-compositor wrapper. | Display management for low-latency isolated rendering. |
-| `C:\src\linux` & `unix` | Linux kernel headers and Unix core tools. | Target headers for systemd early-boot units and seccomp profile generation. |
-| `C:\src\longbridge` | High-frequency trading and low-latency network protocols. | Reference for zero-copy binary streaming and connection pooling. |
-| `C:\src\microsoft` | Native Windows NT APIs, WDK, and Windows SDK tools. | Win32 Job Object, Power Throttling, and DWM hook definitions. |
-| `C:\src\rosegriffon` & `shenron` | Production web platforms (`rosegriffon.fr`, `dragonballfr.com`). | Real-world consumer applications consuming `r3d` API endpoints. |
-| `C:\src\storytold` | Interactive narrative engine. | AI agent testbed for creative text generation and branching state logic. |
-| `C:\src\wgpu` & `winit` | WebGPU native implementation in Rust and cross-platform windowing. | Underpins client-side rendering and GPU shader execution. |
-| `C:\src\zed` | High-performance GPUI collaborative editor. | Reference architecture for low-latency buffer management and thread dispatch. |
+| `C:\src\apps\aphrody` | Strict Google replica, 100% pure Bun, 0 external npm dependencies. | Frontend presentation layer for client-side WebGPU agent chat console. |
+| `C:\src\crates\bench` | Benchmarking harnesses for memory latency and inference throughput. | Performance verification suite for AVX2 vs CUDA latency. |
+| `C:\src\third_party\bun` | Upstream `oven-sh/bun` source tree. | Host runtime for scripts and high-speed local control scripts. |
+| `C:\src\third_party\chromium` & `chromium-bun` | Chromium upstream source and headless bindings. | Headless web interaction and testing for WebGPU browser compute. |
+| `C:\src\crates\depot` & `depot_tools` | Sovereign monorepo engine using Google `argh` + `zerocopy` + `windows-sys`. | Build orchestration and dependency management. |
+| `C:\src\third_party\dioxus` & `taffy` | Rust UI layout and cross-platform GUI framework. | Native UI layout engine for local HUD displays. |
+| `C:\src\crates\gamescope-rs` | Rust micro-compositor wrapper. | Display management for low-latency isolated rendering. |
+| `C:\src\third_party\linux` & `unix` | Linux kernel headers and Unix core tools. | Target headers for systemd early-boot units and seccomp profile generation. |
+| `C:\src\third_party\longbridge` | High-frequency trading and low-latency network protocols. | Reference for zero-copy binary streaming and connection pooling. |
+| `C:\src\third_party\microsoft` | Native Windows NT APIs, WDK, and Windows SDK tools. | Win32 Job Object, Power Throttling, and DWM hook definitions. |
+| `C:\src\apps\rosegriffon` & `shenron` | Production web platforms (`rosegriffon.fr`, `dragonballfr.com`). | Real-world consumer applications consuming `r3d` API endpoints. |
+| `C:\src\third_party\storytold` | Interactive narrative engine. | AI agent testbed for creative text generation and branching state logic. |
+| `C:\src\third_party\wgpu` & `winit` | WebGPU native implementation in Rust and cross-platform windowing. | Underpins client-side rendering and GPU shader execution. |
+| `C:\src\third_party\zed` | High-performance GPUI collaborative editor. | Reference architecture for low-latency buffer management and thread dispatch. |
 
 ---
 
